@@ -105,6 +105,13 @@ function notify() {
       ;;
   esac
 
+  branchregexp=$(git config --get hooks.slack.branchregexp)
+  if [ -n "$branchregexp" ]; then
+    if [[ "$short_refname" !~ branchregexp ]]; then
+      return 0;
+    fi
+  fi
+
   #channels=$(git config hooks.irc.channel)
 
   # plural suffix, default "", changed to "s" if commits > 1
